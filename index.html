@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portrait Artist - Custom Sketches & Artworks</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0f0f11;
+            --card-bg: #18181c;
+            --accent-color: #f39c12;
+            --text-color: #f1f1f1;
+            --text-muted: #a0a0a0;
+            --border-color: #2a2a30;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: rgba(15, 15, 17, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: linear-gradient(rgba(15, 15, 17, 0.8), rgba(15, 15, 17, 1)), url('https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1000') center/cover;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 span {
+            color: var(--accent-color);
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            max-width: 600px;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: #000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
+
+        /* Sections General */
+        section {
+            padding: 60px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+            display: block;
+            margin: 10px auto 0;
+        }
+
+        /* Gallery Grid (Ready Artworks) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .art-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: 0.3s;
+        }
+
+        .art-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .art-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .art-details {
+            padding: 20px;
+        }
+
+        .art-title {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .art-price {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Order Form */
+        .order-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent-color);
+        }
+
+        /* Payment Section */
+        .payment-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .qr-code {
+            text-align: center;
+        }
+
+        .qr-code img {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            border: 2px solid var(--accent-color);
+        }
+
+        .payment-info ol {
+            margin-left: 20px;
+            color: var(--text-muted);
+        }
+
+        .payment-info ol li {
+            margin-bottom: 10px;
+        }
+
+        .upi-id {
+            background-color: var(--bg-color);
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 600;
+            color: var(--accent-color);
+            border: 1px dashed var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            nav { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <!-- APNA NAAM YEHA BADLEIN -->
+        <div class="logo"><i class="fa-solid fa-palette"></i> GANESHA ARTS</div>
+        <ul class="nav-links">
+            <li><a href="#store">Ready Artworks</a></li>
+            <li><a href="#custom-order">Custom Order</a></li>
+            <li><a href="#payment">Payment Options</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <!-- APNA TITLE YEHA LIKHEIN -->
+        <h1>Realistic Hand-Drawn <span>Portraits</span></h1>
+        <p>Turn your precious memories into timeless pencil artwork. Original artworks & custom commissioned sketches made with passion.</p>
+        <a href="#custom-order" class="btn">Order Custom Sketch</a>
+    </div>
+
+    <!-- Ready-Made Store -->
+    <section id="store">
+        <h2 class="section-title">Ready-Made Original Artworks</h2>
+        <div class="gallery-grid">
+            
+            <!-- Sample Artwork 1 -->
+            <div class="art-card">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600" alt="Artwork 1">
+                <div class="art-details">
+                    <h3 class="art-title">Pencil Portrait #01</h3>
+                    <div class="art-price">₹1,499</div>
+                    <button class="btn" onclick="buyArtwork('Pencil Portrait #01', '₹1,499')">Buy via WhatsApp</button>
+                </div>
+            </div>
+
+            <!-- Sample Artwork 2 -->
+            <div class="art-card">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=600" alt="Artwork 2">
+                <div class="art-details">
+                    <h3 class="art-title">Charcoal Portrait #02</h3>
+                    <div class="art-price">₹1,999</div>
+                    <button class="btn" onclick="buyArtwork('Charcoal Portrait #02', '₹1,999')">Buy via WhatsApp</button>
+                </div>
+            </div>
+
+            <!-- Sample Artwork 3 -->
+            <div class="art-card">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600" alt="Artwork 3">
+                <div class="art-details">
+                    <h3 class="art-title">Expressive Portrait #03</h3>
+                    <div class="art-price">₹1,299</div>
+                    <button class="btn" onclick="buyArtwork('Expressive Portrait #03', '₹1,299')">Buy via WhatsApp</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Custom Order Form -->
+    <section id="custom-order">
+        <h2 class="section-title">Order A Custom Sketch</h2>
+        <div class="order-container">
+            <form id="sketchOrderForm" onsubmit="handleCustomOrder(event)">
+                <div class="form-group">
+                    <label for="name">Your Full Name</label>
+                    <input type="text" id="name" required placeholder="Enter your name">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">WhatsApp Phone Number</label>
+                    <input type="tel" id="phone" required placeholder="e.g. 9876543210">
+                </div>
+
+                <div class="form-group">
+                    <label for="size">Paper Size</label>
+                    <select id="size" required>
+                        <option value="A4 Size">A4 Size (Standard - 8.3 x 11.7 in)</option>
+                        <option value="A3 Size">A3 Size (Medium - 11.7 x 16.5 in)</option>
+                        <option value="A2 Size">A2 Size (Large - 16.5 x 23.4 in)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="medium">Medium Style</label>
+                    <select id="medium" required>
+                        <option value="Graphite Pencil">Graphite Pencil (Black & White)</option>
+                        <option value="Charcoal Pencil">Charcoal Pencil (Dark & Bold)</option>
+                        <option value="Color Pencil">Color Pencil</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="faces">Number of Faces in Portrait</label>
+                    <select id="faces" required>
+                        <option value="Single Face">Single Face</option>
+                        <option value="Double / Couple Face">Double / Couple Face</option>
+                        <option value="Group (3+ Faces)">Group (3+ Faces)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Special Requests / Instructions</label>
+                    <textarea id="notes" rows="3" placeholder="Any specific requirements..."></textarea>
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%;">Proceed To Book Order</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section id="payment">
+        <h2 class="section-title">Advance Payment Options</h2>
+        <div class="payment-box">
+            <div class="qr-code">
+                <!-- APNA PHONEPE QR CODE IMAGE LINK YEHA DAALEIN -->
+                <img src="qr.png" alt="PhonePe QR Code">
+                <div class="upi-id">UPI ID: 6265388263-2@ybl</div>
+            </div>
+            <div class="payment-info">
+                <h3 style="margin-bottom: 15px;">How Order Process Works:</h3>
+                <ol>
+                    <li>Fill the Custom Order Form above with your choices.</li>
+                    <li>Scan the PhonePe QR code and pay <b>50% Advance</b> to confirm your slot.</li>
+                    <li>Submit the form—it will open WhatsApp where you can send us your reference photo & payment screenshot!</li>
+                    <li>Once completed, the artwork will be safely framed and shipped to your address.</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Your Name Art Gallery. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // APNA WHATSAPP NUMBER YEHA DAALEN (Country code ke sath, bina + sign ke)
+        const myWhatsAppNumber = "916265388263"; 
+
+        // Ready-made artwork buy function
+        function buyArtwork(artTitle, price) {
+            const message = `Hello! I want to buy your ready-made artwork: *${artTitle}* for *${price}*. Please let me know how to proceed!`;
+            const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Custom order submission function
+        function handleCustomOrder(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const size = document.getElementById('size').value;
+            const medium = document.getElementById('medium').value;
+            const faces = document.getElementById('faces').value;
+            const notes = document.getElementById('notes').value || "None";
+
+            const message = `🎨 *NEW CUSTOM SKETCH ORDER* 🎨\n\n` +
+                            `*Client Name:* ${name}\n` +
+                            `*Phone:* ${phone}\n` +
+                            `*Paper Size:* ${size}\n` +
+                            `*Medium:* ${medium}\n` +
+                            `*No. of Faces:* ${faces}\n` +
+                            `*Notes:* ${notes}\n\n` +
+                            `_I am attaching my reference photo and advance payment screenshot below:_`;
+
+            const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
