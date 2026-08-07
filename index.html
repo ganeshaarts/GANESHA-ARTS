@@ -446,5 +446,50 @@
             window.open(whatsappUrl, '_blank');
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/front-matter@3.1.0/index.min.js"></script>
+<script>
+  // CMS se dynamic content fetch karke show karne ke liye
+  async function loadArtworks() {
+    try {
+      const response = await fetch('https://api.github.com/repos/ganeshaarts/GANESHA-ARTS/contents/content/artworks');
+      const files = await response.json();
+      
+      const grid = document.querySelector('.artworks-grid') || document.querySelector('.grid');
+      if (!grid || !Array.isArray(files)) return;
+
+      for (let file of files) {
+        if (file.name.endsWith('.md')) {
+          const res = await fetch(file.download_url);
+          const text = await res.text();
+          
+          // Front-matter parse
+          const titleMatch = text.match(/title:\s*"(.*?)"|title:\s*(.*)/);
+          const imageMatch = text.match(/image:\s*"(.*?)"|image:\s*(.*)/);
+          const priceMatch = text.match(/price:\s*"(.*?)"|price:\s*(.*)/);
+          
+          const title = titleMatch ? (titleMatch[1] || titleMatch[2]) : 'Artwork';
+          const image = imageMatch ? (imageMatch[1] || imageMatch[2]) : '';
+          const price = priceMatch ? (priceMatch[1] || priceMatch[2]) : '';
+
+          if(image) {
+            const card = document.createElement('div');
+            card.className = 'art-card'; // Tumhari site ki card class
+            card.innerHTML = `
+              <img src="${image}" alt="${title}">
+              <h3>${title}</h3>
+              <p class="price">₹${price}</p>
+              <a href="https://wa.me/91XXXXXXXXXX?text=Hi,%20I%20want%20to%20buy%20${encodeURIComponent(title)}" class="buy-btn">Buy via WhatsApp</a>
+            `;
+            grid.appendChild(card);
+          }
+        }
+      }
+    } catch (e) {
+      console.log("Error loading artworks:", e);
+    }
+  }
+  document.addEventListener("DOMContentLoaded", loadArtworks);
+          </script>
+    
 </body>
 </html>
